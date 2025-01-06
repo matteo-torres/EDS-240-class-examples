@@ -4,6 +4,8 @@ subtitle: "`{ggplot2}` review"
 author: "Your Name"
 date: 2025-01-06
 toc: true
+editor_options: 
+  chunk_output_type: console
 ---
 
 ::: {.callout-note}
@@ -71,28 +73,45 @@ Explore the relationship between penguin **bill length** and **bill depth**. Our
 
 ```{r}
 #| warning: false
-# ~ CODE ALONG HERE ~
+ggplot(data = penguins,
+       mapping = aes(x = bill_length_mm, y = bill_depth_mm,
+                     color = species)) +
+  geom_point() +
+  theme_bw()
 ```
 
 ### Example 2 (mapping custom colors)
 
 ```{r}
 #| warning: false
-# ~ CODE ALONG HERE ~
+ggplot(data = penguins,
+       mapping = aes(x = bill_length_mm, y = bill_depth_mm,
+                     color = species)) +
+  geom_point() +
+  scale_color_manual(values = c("darkorange", "purple", "cyan4")) +
+  theme_bw()
 ```
 
 ### Example 3 (mapping color to continuous variable)
 
 ```{r}
 #| warning: false
-# ~ CODE ALONG HERE ~
+ggplot(data = penguins,
+       mapping = aes(x = bill_length_mm, y = bill_depth_mm,
+                     color = body_mass_g)) +
+  geom_point() +
+  scale_color_gradient(low = "darkblue", high = "yellow") +
+  theme_bw()
 ```
 
 ### Example 4 (updating color for all points)
 
 ```{r}
 #| warning: false
-# ~ CODE ALONG HERE ~
+ggplot(data = penguins,
+       mapping = aes(x = bill_length_mm, y = bill_depth_mm)) +
+  geom_point(color = "blue") +
+  theme_bw()
 ```
 
 ### Example 5 (local vs. global data & variable mappings) 
@@ -112,7 +131,17 @@ penguins_summary <- penguins |>
   )
 
 # create ggplot with layers from different dfs ----
-# ~ CODE ALONG HERE ~
+ggplot() +
+  geom_point(data = penguins,
+             mapping = aes(x = bill_length_mm, 
+                           y = bill_depth_mm,
+                           color = species)) +
+  geom_point(data = penguins_summary,
+             mapping = aes(x = mean_bill_length_mm,
+                           y = mean_bill_depth_mm,
+                           fill = species),
+             size = 6, shape = 24, color = "purple") +
+  theme_bw()
 ```
 
 ### Example 6 & 7 (mapping variables globally vs. locally)
@@ -123,7 +152,12 @@ penguins_summary <- penguins |>
 #| warning: false
 #| message: false
 # scatterplot with lms fitted to species ---- 
-# ~ CODE ALONG HERE ~
+ggplot(data = penguins,
+       mapping = aes(x = bill_length_mm, y = bill_depth_mm,
+                     color = species)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  theme_bw()
 ```
 
 - local mappings only apply to that particular layer:
@@ -132,7 +166,11 @@ penguins_summary <- penguins |>
 #| warning: false
 #| message: false
 # scatterplot with lm fitted to entire data set ---- 
-# ~ CODE ALONG HERE ~
+ggplot(data = penguins,
+       mapping = aes(x = bill_length_mm, y = bill_depth_mm)) +
+  geom_point(aes(color = species)) +
+  geom_smooth(method = "lm") +
+  theme_bw()
 ```
 
 ### Example 8 (piping data into a ggplot)
@@ -142,7 +180,11 @@ penguins_summary <- penguins |>
 ```{r}
 #| warning: false
 # filter for Gentoo penguins, then pipe into ggplot ----
-# ~ CODE ALONG HERE ~
+penguins %>%
+  filter(species == "Gentoo") %>%
+  ggplot(aes(x = bill_length_mm, y = bill_depth_mm)) +
+  geom_point() +
+  theme_bw()
 ```
 
 ## Plot #2
@@ -164,7 +206,9 @@ Explore **penguin species counts**. Our goals are to review:
 
 ```{r}
 #| warning: false
-# ~ CODE ALONG HERE ~
+ggplot(data = penguins, aes(x = species)) +
+  geom_bar() +
+  theme_bw()
 ```
 
 ### Example 2 (override default stat)
@@ -179,7 +223,9 @@ penguin_summary <- penguins |>
   count(species) 
 
 # generate bar heights based on "identity" of values in `n` column ----
-# ~ CODE ALONG HERE ~
+ggplot(data = penguin_summary, aes(x = species, y = n)) +
+  geom_bar(stat = "identity") +
+  theme_bw()
 ```
 
 ### Example 3 (override default stat *mapping*)
@@ -199,7 +245,9 @@ penguin_summary <- penguins |>
 
 ```{r}
 #| warning: false
-# ~ CODE ALONG HERE ~
+ggplot(data = penguins, aes(x = species, fill = island)) +
+  geom_bar() +
+  theme_bw()
 ```
 
 ### Example 5 & 6 (override default position adjustments)
@@ -208,7 +256,9 @@ penguin_summary <- penguins |>
 
 ```{r}
 #| warning: false
-# ~ CODE ALONG HERE ~
+ggplot(data = penguins, aes(x = species, fill = island)) +
+  geom_bar(position = "fill") +
+  theme_bw()
 ```
 
 - `position = "dodge"` places overlapping bars directly beside one another (easier to compare individual values):
@@ -216,21 +266,28 @@ penguin_summary <- penguins |>
 
 ```{r}
 #| warning: false
-# ~ CODE ALONG HERE ~
+ggplot(data = penguins, aes(x = species, fill = island)) +
+  geom_bar(position = "dodge") +
+  theme_bw()
 ```
 
 ### Example 7 (alternatively, use `position_*()`)
 
 ```{r}
 #| warning: false
-# ~ CODE ALONG HERE ~
+ggplot(data = penguins, aes(x = species, fill = island)) +
+  geom_bar(position = position_dodge2(preserve = "single")) +
+  theme_bw()
 ```
 
 ### Example 8 (default coordinate system)
 
 ```{r}
 #| warning: false
-# ~ CODE ALONG HERE ~
+ggplot(data = penguins, aes(x = species)) +
+  geom_bar() +
+  coord_cartesian() +
+  theme_bw()
 ```
 
 ### Example 9 & 10 (alternative coordinate systems)
@@ -239,28 +296,41 @@ penguin_summary <- penguins |>
 
 ```{r}
 #| warning: false
-# ~ CODE ALONG HERE ~
+ggplot(data = penguins, aes(x = species)) +
+  geom_bar() +
+  coord_flip() +
+  theme_bw()
 ```
 
 - polar coordinates: 
 
 ```{r}
 #| warning: false
-# ~ CODE ALONG HERE ~
+ggplot(data = penguins, aes(x = species)) +
+  geom_bar() +
+  coord_polar() +
+  theme_bw()
 ```
 
 ### Example 11 (pre-made themes)
 
 ```{r}
 #| warning: false
-# ~ CODE ALONG HERE ~
+ggplot(data = penguins, aes(x = species)) +
+  geom_bar() +
+  coord_cartesian() +
+  theme_classic()
 ```
 
 ### Example 12 (customize further with `theme()`)
 
 ```{r}
 #| warning: false
-# ~ CODE ALONG HERE ~
+ggplot(data = penguins, aes(x = species)) +
+  geom_bar() +
+  coord_cartesian() +
+  theme_classic() +
+  theme(axis.title = element_text(size = 17, color = "purple"))
 ```
 
 ## Plot #3 
@@ -284,5 +354,12 @@ Explore **penguin flipper lengths**. Our goals are to review:
 ```{r}
 #| warning: false
 #| message: false
-# ~ CODE ALONG HERE ~
+ggplot(data = penguins, aes(x = flipper_length_mm, fill = species)) +
+  geom_histogram(position = "identity", alpha = 0.5) +
+  scale_fill_manual(values = c("darkorange", "purple", "cyan4")) +
+  labs(x = "Flipper Length (mm)", 
+  y = "Frequency", fill = "Species",
+  title = "Penguin Fipper Lengths") +
+  facet_wrap(~species) +
+  theme_bw()
 ```
