@@ -1,7 +1,7 @@
 ---
 title: "Lecture 1.3 TEMPLATE"
 subtitle: "`{ggplot2}` review"
-author: "Your Name"
+author: "Matteo Torres"
 date: 2025-01-06
 toc: true
 editor_options: 
@@ -234,7 +234,10 @@ ggplot(data = penguin_summary, aes(x = species, y = n)) +
 
 ```{r}
 #| warning: false
-# ~ CODE ALONG HERE ~
+ggplot(data = penguins, 
+       mapping = aes(x = species, y = after_stat(prop), group = 1)) + 
+  geom_bar() +
+  theme_bw()
 ```
 
 ### Example 4 (default position adjustment)
@@ -360,6 +363,6 @@ ggplot(data = penguins, aes(x = flipper_length_mm, fill = species)) +
   labs(x = "Flipper Length (mm)", 
   y = "Frequency", fill = "Species",
   title = "Penguin Fipper Lengths") +
-  facet_wrap(~species) +
+  facet_wrap(~species, ncol = 1) +
   theme_bw()
 ```
