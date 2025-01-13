@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Matteo Torres">
-<meta name="dcterms.date" content="2025-01-03">
+<meta name="dcterms.date" content="2025-01-13">
 
-<title>Week 1: Discussion</title>
+<title>Week 1 Discussion: Exercise</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -47,7 +81,8 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Week 1: Discussion</h1>
+<h1 class="title">Week 1 Discussion: Exercise</h1>
+<p class="subtitle lead">Data wrangling with the {tidyverse}</p>
 </div>
 
 
@@ -64,7 +99,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 3, 2025</p>
+      <p class="date">January 13, 2025</p>
     </div>
   </div>
   
@@ -76,7 +111,257 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-
+<section id="load-packages" class="level2">
+<h2 class="anchored" data-anchor-id="load-packages">Load Packages</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(usdata)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="read-data" class="level2">
+<h2 class="anchored" data-anchor-id="read-data">Read Data</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fracking <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"week1"</span>, <span class="st">"data"</span>, <span class="st">"registryupload_1.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="data-exploration" class="level2">
+<h2 class="anchored" data-anchor-id="data-exploration">Data Exploration</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Look at the column names </span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(fracking)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "pKey"                    "JobStartDate"           
+ [3] "JobEndDate"              "APINumber"              
+ [5] "StateNumber"             "CountyNumber"           
+ [7] "OperatorName"            "WellName"               
+ [9] "Latitude"                "Longitude"              
+[11] "Projection"              "TVD"                    
+[13] "TotalBaseWaterVolume"    "TotalBaseNonWaterVolume"
+[15] "StateName"               "CountyName"             
+[17] "FFVersion"               "FederalWell"            
+[19] "IndianWell"              "Source"                 
+[21] "DTMOD"                  </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Look at the number of rows/columns</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(fracking)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 100000     21</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Look at the structure of the dataframe</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(fracking)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>spc_tbl_ [100,000 × 21] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+ $ pKey                   : chr [1:100000] "448c1dab-c7fd-4e07-9d6f-e3b1cf64b708" "f66add2e-8ea8-4843-9388-24725b5d37c1" "95f0904c-2556-4912-9f5a-34913ba57625" "5a9513e7-b79f-4488-9f64-fa0960e595f3" ...
+ $ JobStartDate           : chr [1:100000] "5/1/1955 12:00:00 AM" "5/19/1982 12:00:00 AM" "2/7/1995 12:00:00 AM" "6/11/1996 12:00:00 AM" ...
+ $ JobEndDate             : chr [1:100000] "5/1/1955 12:00:00 AM" "5/19/1982 12:00:00 AM" "2/7/1995 12:00:00 AM" "6/11/1996 12:00:00 AM" ...
+ $ APINumber              : chr [1:100000] "42317372620000" "49009219470000" "49009228850000" "42335355480000" ...
+ $ StateNumber            : chr [1:100000] "42" "49" "49" "42" ...
+ $ CountyNumber           : chr [1:100000] "317" "009" "009" "335" ...
+ $ OperatorName           : chr [1:100000] "Pioneer Natural Resources" "Chesapeake Operating, Inc." "Chesapeake Operating, Inc." "Energen Resources Corporation" ...
+ $ WellName               : chr [1:100000] "Rogers 42 #5" "WILLIAM VALENTINE 1" "LIZARD HEAD 1-8H RE" "North Westbrook Unit/Well No. 3032" ...
+ $ Latitude               : num [1:100000] 32.3 43 42.9 32.4 31.3 ...
+ $ Longitude              : num [1:100000] -101.9 -106 -105.4 -101 -96.4 ...
+ $ Projection             : chr [1:100000] "NAD27" "NAD27" "NAD27" "NAD27" ...
+ $ TVD                    : num [1:100000] NA NA NA NA NA ...
+ $ TotalBaseWaterVolume   : num [1:100000] NA NA NA NA NA ...
+ $ TotalBaseNonWaterVolume: num [1:100000] NA NA NA NA NA 0 NA NA NA NA ...
+ $ StateName              : chr [1:100000] "Texas" "WYOMING" "WYOMING" "Texas" ...
+ $ CountyName             : chr [1:100000] "Martin" "CONVERSE" "CONVERSE" "Mitchell" ...
+ $ FFVersion              : num [1:100000] 1 1 1 1 1 3 1 1 1 1 ...
+ $ FederalWell            : logi [1:100000] FALSE FALSE FALSE FALSE FALSE FALSE ...
+ $ IndianWell             : logi [1:100000] FALSE FALSE FALSE FALSE FALSE FALSE ...
+ $ Source                 : logi [1:100000] NA NA NA NA NA NA ...
+ $ DTMOD                  : logi [1:100000] NA NA NA NA NA NA ...
+ - attr(*, "spec")=
+  .. cols(
+  ..   pKey = col_character(),
+  ..   JobStartDate = col_character(),
+  ..   JobEndDate = col_character(),
+  ..   APINumber = col_character(),
+  ..   StateNumber = col_character(),
+  ..   CountyNumber = col_character(),
+  ..   OperatorName = col_character(),
+  ..   WellName = col_character(),
+  ..   Latitude = col_double(),
+  ..   Longitude = col_double(),
+  ..   Projection = col_character(),
+  ..   TVD = col_double(),
+  ..   TotalBaseWaterVolume = col_double(),
+  ..   TotalBaseNonWaterVolume = col_double(),
+  ..   StateName = col_character(),
+  ..   CountyName = col_character(),
+  ..   FFVersion = col_double(),
+  ..   FederalWell = col_logical(),
+  ..   IndianWell = col_logical(),
+  ..   Source = col_logical(),
+  ..   DTMOD = col_logical()
+  .. )
+ - attr(*, "problems")=&lt;externalptr&gt; </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize the variables</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fracking)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     pKey           JobStartDate        JobEndDate         APINumber        
+ Length:100000      Length:100000      Length:100000      Length:100000     
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+                                                                            
+                                                                            
+                                                                            
+                                                                            
+ StateNumber        CountyNumber       OperatorName         WellName        
+ Length:100000      Length:100000      Length:100000      Length:100000     
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+                                                                            
+                                                                            
+                                                                            
+                                                                            
+    Latitude          Longitude        Projection             TVD           
+ Min.   :    25.2   Min.   :   -171   Length:100000      Min.   :0.000e+00  
+ 1st Qu.:    31.7   1st Qu.:   -103   Class :character   1st Qu.:6.050e+03  
+ Median :    33.6   Median :   -101   Mode  :character   Median :8.042e+03  
+ Mean   :    39.4   Mean   :    -62                      Mean   :6.009e+04  
+ 3rd Qu.:    40.0   3rd Qu.:    -98                      3rd Qu.:1.064e+04  
+ Max.   :376223.0   Max.   :3810848                      Max.   :1.185e+09  
+                                                         NA's   :30136      
+ TotalBaseWaterVolume TotalBaseNonWaterVolume  StateName        
+ Min.   :       0     Min.   :-11525891       Length:100000     
+ 1st Qu.:  415454     1st Qu.:        0       Class :character  
+ Median : 2114427     Median :        0       Mode  :character  
+ Mean   : 3227247     Mean   :   148662                         
+ 3rd Qu.: 4960074     3rd Qu.:        0                         
+ Max.   :93277966     Max.   :202816628                         
+ NA's   :30158        NA's   :48176                             
+  CountyName          FFVersion     FederalWell     IndianWell     
+ Length:100000      Min.   :1.000   Mode :logical   Mode :logical  
+ Class :character   1st Qu.:1.000   FALSE:95786     FALSE:99999    
+ Mode  :character   Median :2.000   TRUE :4214      TRUE :1        
+                    Mean   :1.564                                  
+                    3rd Qu.:2.000                                  
+                    Max.   :3.000                                  
+                                                                   
+  Source         DTMOD        
+ Mode:logical   Mode:logical  
+ NA's:100000    NA's:100000   
+                              
+                              
+                              
+                              
+                              </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View the first couple of rows</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fracking)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 21
+  pKey   JobStartDate JobEndDate APINumber StateNumber CountyNumber OperatorName
+  &lt;chr&gt;  &lt;chr&gt;        &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;       &lt;chr&gt;        &lt;chr&gt;       
+1 448c1… 5/1/1955 12… 5/1/1955 … 42317372… 42          317          Pioneer Nat…
+2 f66ad… 5/19/1982 1… 5/19/1982… 49009219… 49          009          Chesapeake …
+3 95f09… 2/7/1995 12… 2/7/1995 … 49009228… 49          009          Chesapeake …
+4 5a951… 6/11/1996 1… 6/11/1996… 42335355… 42          335          Energen Res…
+5 36368… 12/13/2001 … 12/13/200… 42395313… 42          395          XTO Energy/…
+6 3af8c… 3/29/2023 1… 4/19/2002… 34067217… 34          067          EAP Ohio LLC
+# ℹ 14 more variables: WellName &lt;chr&gt;, Latitude &lt;dbl&gt;, Longitude &lt;dbl&gt;,
+#   Projection &lt;chr&gt;, TVD &lt;dbl&gt;, TotalBaseWaterVolume &lt;dbl&gt;,
+#   TotalBaseNonWaterVolume &lt;dbl&gt;, StateName &lt;chr&gt;, CountyName &lt;chr&gt;,
+#   FFVersion &lt;dbl&gt;, FederalWell &lt;lgl&gt;, IndianWell &lt;lgl&gt;, Source &lt;lgl&gt;,
+#   DTMOD &lt;lgl&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="cleanwrangle-data" class="level2">
+<h2 class="anchored" data-anchor-id="cleanwrangle-data">Clean/Wrangle Data</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>fracking_clean <span class="ot">&lt;-</span> fracking <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">job_start_date =</span> <span class="fu">str_remove</span>(job_start_date, <span class="st">" AM"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">datetime_start =</span> <span class="fu">mdy_hms</span>(job_start_date)) <span class="sc">%&gt;%</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">year</span>(datetime_start)) <span class="sc">%&gt;%</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(datetime_start, year, state_name, well_name, total_base_water_volume) <span class="sc">%&gt;%</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">state_name =</span> <span class="fu">str_to_title</span>(state_name)) <span class="sc">%&gt;%</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">str_detect</span>(state_name, <span class="at">pattern =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">?"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">state_name =</span> <span class="fu">ifelse</span>(<span class="at">test =</span> <span class="fu">str_length</span>(state_name) <span class="sc">==</span> <span class="dv">2</span>,</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>                             <span class="at">yes =</span> <span class="fu">abbr2state</span>(state_name),</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>                             <span class="at">no =</span> state_name)) <span class="sc">%&gt;%</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">state_name =</span> <span class="fu">case_when</span>(</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    state_name <span class="sc">==</span> <span class="st">"Colordao"</span> <span class="sc">~</span> <span class="st">"Colorado"</span>,</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    state_name <span class="sc">==</span> <span class="st">"Loiusiana"</span> <span class="sc">~</span> <span class="st">"Louisiana"</span>,</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    state_name <span class="sc">==</span> <span class="st">"Louisianna"</span> <span class="sc">~</span> <span class="st">"Louisiana"</span>,</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    state_name <span class="sc">==</span> <span class="st">"Lousiana"</span> <span class="sc">~</span> <span class="st">"Louisiana"</span>,</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    state_name <span class="sc">==</span> <span class="st">"New Mexcio"</span> <span class="sc">~</span> <span class="st">"New Mexico"</span>,</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    state_name <span class="sc">==</span> <span class="st">"Norh Dakota"</span> <span class="sc">~</span> <span class="st">"North Dakota"</span>,</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    state_name <span class="sc">==</span> <span class="st">"Norht Dakota"</span> <span class="sc">~</span> <span class="st">"North Dakota"</span>,</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    state_name <span class="sc">==</span> <span class="st">"North  Dakota"</span> <span class="sc">~</span> <span class="st">"North Dakota"</span>,</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    state_name <span class="sc">==</span> <span class="st">"North Dakata"</span> <span class="sc">~</span> <span class="st">"North Dakota"</span>,</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    state_name <span class="sc">==</span> <span class="st">"North Dakotta"</span> <span class="sc">~</span> <span class="st">"North Dakota"</span>,</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>    state_name <span class="sc">==</span> <span class="st">"Noth Dakota"</span> <span class="sc">~</span> <span class="st">"North Dakota"</span>,</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    state_name <span class="sc">==</span> <span class="st">"Pennslvania"</span> <span class="sc">~</span> <span class="st">"Pennsylvania"</span>,</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>    state_name <span class="sc">==</span> <span class="st">"Pennsylavania"</span> <span class="sc">~</span> <span class="st">"Pennsylvania"</span>,</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    state_name <span class="sc">==</span> <span class="st">"Pennsylvanya"</span> <span class="sc">~</span> <span class="st">"Pennsylvania"</span>,</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    state_name <span class="sc">==</span> <span class="st">"Penssylvania"</span> <span class="sc">~</span> <span class="st">"Pennsylvania"</span>,</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>    state_name <span class="sc">==</span> <span class="st">"Texasa"</span> <span class="sc">~</span> <span class="st">"Texas"</span>,</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>    state_name <span class="sc">==</span> <span class="st">"Texs"</span> <span class="sc">~</span> <span class="st">"Texas"</span>, </span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>    state_name <span class="sc">==</span> <span class="st">"West Viginia"</span> <span class="sc">~</span> <span class="st">"West Virginia"</span>,</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>    state_name <span class="sc">==</span> <span class="st">"Wyominng"</span> <span class="sc">~</span> <span class="st">"Wyoming"</span>, </span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> state_name)) <span class="sc">%&gt;%</span></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>   <span class="fu">filter</span>(<span class="sc">!</span>state_name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Beaver"</span>, </span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Beckham"</span>, </span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Harper"</span>, </span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Hemphill"</span>, </span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Midland"</span>, </span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Red River"</span>, </span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Roosevelt"</span>, </span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Rusk"</span>, <span class="st">"</span></span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a><span class="st">                             State"</span>, </span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Ward"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">state_abb =</span> usdata<span class="sc">::</span><span class="fu">state2abbr</span>(state_name)) <span class="sc">%&gt;%</span></span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(state_abb, <span class="at">.after =</span> state_name) <span class="sc">%&gt;%</span></span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">total_base_water_volume_gal =</span> total_base_water_volume) <span class="sc">%&gt;%</span></span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(total_base_water_volume_gal) <span class="sc">%&gt;%</span></span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(datetime_start)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="data-visualization" class="level2">
+<h2 class="anchored" data-anchor-id="data-visualization">Data Visualization</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>fracking_clean <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(state_name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Texas"</span>, <span class="st">"Colorado"</span>, <span class="st">"North Dakota"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2015</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(state_name) <span class="sc">%&gt;%</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> state_name, <span class="at">y =</span> total_base_water_volume_gal)) <span class="sc">+</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.3</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">"gray15"</span>) <span class="sc">+</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">color =</span> <span class="st">"red4"</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_comma</span>()) <span class="sc">+</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Total base water volumn (gal)"</span>) <span class="sc">+</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.y =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="week1-discussion_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
 
 </main>
 <!-- /main column -->

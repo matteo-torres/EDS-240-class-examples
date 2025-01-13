@@ -3,37 +3,56 @@ title: "Week 1 Discussion: Exercise"
 subtitle: "Data wrangling with the {tidyverse}"
 author: "Matteo Torres"
 date: last-modified
+execute: 
+  output: false
 editor_options: 
   chunk_output_type: console
 ---
 
 ## Load Packages
 ```{r}
-library(tidyverse)
-library(janitor)
-library(usdata)
+#| code-fold: true
+
 library(here)
+library(usdata)
+library(janitor)
+library(tidyverse)
 ```
 
 ## Read Data
 ```{r}
-fracfocus <- read_csv(here("week1", "data", "registryupload_1.csv"))
+fracking <- read_csv(here("week1", "data", "registryupload_1.csv"))
 ```
 
 ## Data Exploration
-```{r}
-# Look at the first couple of rows
-head(fracfocus)
+```{r, output = TRUE}
+# Look at the column names 
+names(fracking)
 ```
 
-```{r}
-# Look at the data types
-str(fracfocus)
+```{r, output = TRUE}
+# Look at the number of rows/columns
+dim(fracking)
 ```
 
-## Clean Data
+```{r, output = TRUE}
+# Look at the structure of the dataframe
+str(fracking)
+```
+
+```{r, output = TRUE}
+# Summarize the variables
+summary(fracking)
+```
+
+```{r, output = TRUE}
+# View the first couple of rows
+head(fracking)
+```
+
+## Clean/Wrangle Data
 ```{r}
-fracfocus_clean <- fracfocus %>%
+fracking_clean <- fracking %>%
   clean_names() %>%
   mutate(job_start_date = str_remove(job_start_date, " AM")) %>%
   mutate(datetime_start = mdy_hms(job_start_date)) %>%
@@ -65,6 +84,38 @@ fracfocus_clean <- fracfocus %>%
     state_name == "West Viginia" ~ "West Virginia",
     state_name == "Wyominng" ~ "Wyoming", 
     TRUE ~ state_name)) %>%
-   filter(!state_name %in% c("Beaver", "Beckham", "Harper", "Hemphill", "Midland", "Red River", "Roosevelt", "Rusk", "State", "Ward"))
+   filter(!state_name %in% c("Beaver", 
+                             "Beckham", 
+                             "Harper", 
+                             "Hemphill", 
+                             "Midland", 
+                             "Red River", 
+                             "Roosevelt", 
+                             "Rusk", "
+                             State", 
+                             "Ward")) %>%
+  mutate(state_abb = usdata::state2abbr(state_name)) %>%
+  relocate(state_abb, .after = state_name) %>%
+  rename(total_base_water_volume_gal = total_base_water_volume) %>%
+  drop_na(total_base_water_volume_gal) %>%
+  arrange(datetime_start)
+```
+
+## Data Visualization
+```{r, output = TRUE}
+#| code-fold: true
+
+fracking_clean %>%
+  filter(state_name %in% c("Texas", "Colorado", "North Dakota")) %>%
+  filter(year == 2015) %>%
+  group_by(state_name) %>%
+  ggplot(aes(x = state_name, y = total_base_water_volume_gal)) +
+  geom_jitter(width = 0.3, alpha = 0.5, color = "gray15") +
+  geom_violin(color = "red4", alpha = 0.3) +
+  scale_y_continuous(labels = scales::label_comma()) +
+  labs(y = "Total base water volumn (gal)") +
+  coord_flip() +
+  theme_minimal() +
+  theme(axis.title.y = element_blank())
 ```
 
