@@ -1,0 +1,10 @@
+---
+title: "Week 2 Discussion: Exercise"
+subtitle: "Recreating the USDM visualization (graphic form)"
+author: "Matteo Torres"
+date: "January 14, 2025"
+execute: 
+  output: false
+editor_options: 
+  chunk_output_type: console
+---
